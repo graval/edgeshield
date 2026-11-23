@@ -15,7 +15,7 @@ The benchmark evaluates:
 ## Evaluation Testbeds
 
 ### Hardware Testbed 1: Commodity Edge Client (Laptop CPU)
-* **Processor**: Intel(R) Core(TM) Ultra 7 155H @ 3.80 GHz (16 cores, 22 threads)
+* **Processor**: Intel(R) Core(TM) Ultra 7 255H (16 cores, 16 threads)
 * **Memory**: 32 GB LPDDR5
 * **Instruction Set Extensions**: AVX2, AVX-VNNI (Vector Neural Network Instructions)
 * **Operating System**: Windows 11 Enterprise (x86_64)
