@@ -18,7 +18,7 @@ The benchmark evaluates:
 * **Processor**: Intel(R) Core(TM) Ultra 7 255H (16 cores, 16 threads)
 * **Memory**: 32 GB LPDDR5
 * **Instruction Set Extensions**: AVX2, AVX-VNNI (Vector Neural Network Instructions)
-* **Operating System**: Windows 11 Enterprise (x86_64)
+* **Operating System**: Windows 11 AMD64 (x86_64)
 * **Runtime**: ONNX Runtime v1.16+ with CPUExecutionProvider
 
 ### Hardware Testbed 2: Cloud Validation Environment
