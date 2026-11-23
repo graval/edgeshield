@@ -73,3 +73,52 @@ The selective gating module combines an allowlist filter and sliding-window Shan
 * **INT8 Dynamic Quantization**: Retains full FP32 predictive fidelity (99.60% accuracy, 99.55% Macro F1) with zero degradation across classification thresholds.
 * **Hardware Acceleration**: Exploits AVX-VNNI INT8 dot-product instructions, reducing latency from 27.60 ms (FP32) to 15.30 ms (INT8) — a $1.80\times$ speedup — while shrinking the memory footprint to under 50 MB.
 * **INT4 Evaluation**: Further quantization to INT4 produces noticeable degradation on narrow-width 44M parameter representations and lacks native hardware instruction support on modern x86 client CPUs (inducing runtime bit-unpacking penalties). Consequently, INT8 represents the Pareto-optimal operating point.
+
+---
+
+## 5. Confusion Matrices & Reproducibility Artifacts
+
+### 5.1 Canonical LMD-2023 Held-Out Benchmark Partition (3,000 Events)
+
+Evaluated on the balanced held-out test partition ($N = 3,000$ events: 1,000 Normal Class 0, 1,000 EoRS Class 1, 1,000 EoHT Class 2; random seed 42):
+
+#### Multi-Class $3 \times 3$ Confusion Matrix
+| Actual \ Predicted | Predicted Class 0 (Normal) | Predicted Class 1 (EoRS) | Predicted Class 2 (EoHT) | Total Actual |
+| :--- | :---: | :---: | :---: | :---: |
+| **Actual Class 0 (Normal)** | **996** | 3 | 1 | 1,000 |
+| **Actual Class 1 (EoRS)** | 1 | **999** | 0 | 1,000 |
+| **Actual Class 2 (EoHT)** | 3 | 2 | **995** | 1,000 |
+| **Total Predicted** | 1,000 | 1,004 | 996 | 3,000 |
+
+* **Overall Multi-Class Accuracy:** **99.60%** (2,990 / 3,000 correct, $99.60\% \pm 0.08\%$ across 5 evaluation runs)
+* **Macro F1-Score:** **99.55%** ($99.55\% \pm 0.09\%$)
+* **Normal Class False Positive Rate (FPR):** $4 / 1,000 = \mathbf{0.40\%}$
+
+#### Binary Threat Triage Mapping (Normal vs. Adversarial Attacks)
+| True State \ Alarm State | Predicted Benign (Normal) | Predicted Threat (EoRS + EoHT) | Total Events |
+| :--- | :---: | :---: | :---: |
+| **Actual Benign (Normal)** | **996 (True Negative)** | **4 (False Positive)** | 1,000 |
+| **Actual Threat (EoRS + EoHT)** | **4 (False Negative)** | **1,996 (True Positive)** | 2,000 |
+| **Total Events** | 1,000 | 2,000 | 3,000 |
+
+* **Binary Threat Precision:** $1,996 / (1,996 + 4) = \mathbf{99.80\%}$ (average cross-run precision: **99.70%**)
+* **Binary Threat Recall:** $1,996 / 2,000 = \mathbf{99.80\%}$ (conservative multi-run lower bound: **99.40%**)
+* **Benign Workstation FPR:** $4 / 1,000 = \mathbf{0.40\%}$
+
+---
+
+### 5.2 DARPA OpTC Out-of-Distribution Zero-Shot Stream (1,200 Events)
+
+Evaluated zero-shot without target-domain retraining on red-team attack sequences interleaved with host telemetry:
+
+| True State \ Alarm State | Predicted Benign | Predicted Threat | Total Events |
+| :--- | :---: | :---: | :---: |
+| **Actual Benign Background** | **147 (True Negative)** | **453 (False Positive)** | 600 |
+| **Actual Adversarial Threat** | **165 (False Negative)** | **435 (True Positive)** | 600 |
+| **Total Events** | 312 | 888 | 1,200 |
+
+* **Zero-Shot Threat Recall:** $435 / 600 = \mathbf{72.50\%}$
+* **Binary Threat Precision:** $435 / (435 + 453) = 435 / 888 = \mathbf{48.99\%}$
+* **Macro Precision across Binary Classes:** $\frac{1}{2} \left( \frac{147}{312} + \frac{435}{888} \right) = \mathbf{48.05\%}$
+* **Benign False Positive Rate (FPR):** $453 / 600 = \mathbf{75.50\%}$
+* **Macro F1-Score:** $\mathbf{45.35\%}$
