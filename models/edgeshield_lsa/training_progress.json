@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "model_name": "EdgeShield-LSA (DistilBERT + Supervised Contrastive Loss)",
+  "variant_label": "Stream A: Log Semantic Analyzer (Lateral Movement)",
+  "current_epoch": 2,
+  "total_epochs": 2,
+  "current_step": 1500,
+  "total_steps": 1500,
+  "max_steps": 1500,
+  "loss": 0.4811,
+  "elapsed_seconds": 3433.42,
+  "timestamp": 1787512194.7472146,
+  "device": "DirectML GPU (Intel Arc 140T 16GB)"
+}

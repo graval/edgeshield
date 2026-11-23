@@ -1,0 +1,11 @@
+{
+  "status": "completed",
+  "model_name": "EdgeShield-BPD (DistilBERT + Attention Scoring)",
+  "variant_label": "Stream B: Behavioral Pattern Detector (Ransomware Multi-Stage)",
+  "current_epoch": 3,
+  "total_epochs": 3,
+  "current_step": 1500,
+  "total_steps": 1500,
+  "elapsed_seconds": 236.4,
+  "timestamp": 1795251850.7046676
+}

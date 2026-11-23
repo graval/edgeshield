@@ -1,0 +1,26 @@
+{
+  "accuracy": 99.67,
+  "macro_f1": 99.67,
+  "macro_precision": 99.67,
+  "macro_recall": 99.67,
+  "lateral_movement_recall": 99.9,
+  "false_positive_rate": 0.4,
+  "class_metrics": {
+    "Normal": {
+      "precision": 99.8,
+      "recall": 99.6,
+      "f1": 99.7
+    },
+    "EoRS": {
+      "precision": 99.21,
+      "recall": 99.9,
+      "f1": 99.55
+    },
+    "EoHT": {
+      "precision": 100.0,
+      "recall": 99.5,
+      "f1": 99.75
+    }
+  },
+  "training_time_seconds": 4296.17
+}
