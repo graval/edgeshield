@@ -5,6 +5,16 @@
 
 ---
 
+## 🏛️ The 3-Tier EdgeShield Repository Architecture
+
+This public repository (`graval/edgeshield`) represents **Tier 3** of the EdgeShield project:
+
+* **Tier 1 (Private: `graval/slm-gpu-trainer`):** Academic Research & Defense Archive (Doctoral milestones RDC2-RDC4, grant proposals, manuscripts, rebuttal letters).
+* **Tier 2 (Private: `graval/edgeshield-experiments`):** Execution & Experiment Engine (Training pipelines, checkpoint registry, Kaggle cloud runners, multi-hardware benchmark logs).
+* **Tier 3 (Public: `graval/edgeshield` - THIS REPO):** Public Artifact Release containing finalized, peer-reviewed EdgeShield library code, exported ONNX INT8 models, and clean replication scripts for peer review.
+
+---
+
 ## 🔒 Repository Privacy, Release Separation & Git Branching Governance (MANDATORY)
 
 ### 1. Repository Privacy & Confidentiality Boundary
