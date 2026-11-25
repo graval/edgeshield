@@ -225,21 +225,32 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[*] Execution Device: {device}" + (f" ({torch.cuda.get_device_name(0)})" if torch.cuda.is_available() else ""), flush=True)
 
-    # Search for pre-trained EdgeShield weights across Kaggle inputs & public repo
+    # Search recursively in /kaggle/input for trained EdgeShield checkpoints or zip archive
+    if os.path.exists("/kaggle/input") and not os.path.exists("/kaggle/working/extracted_models/models/edgeshield_bpd"):
+        for root, dirs, files in os.walk("/kaggle/input"):
+            for fn in files:
+                if fn == "edgeshield_trained_models.zip":
+                    z_in = os.path.join(root, fn)
+                    print(f"[*] Extracting trained EdgeShield checkpoints from {z_in}...", flush=True)
+                    with zipfile.ZipFile(z_in, "r") as mz:
+                        mz.extractall("/kaggle/working/extracted_models")
+                    break
+
     model_candidates = [
         args.base_model,
         "/kaggle/working/edgeshield/models/edgeshield_bpd",
-        "/kaggle/input/edgeshield-slm-training/models/edgeshield_bpd",
         "/kaggle/working/extracted_models/models/edgeshield_bpd",
+        "/kaggle/working/extracted_models/edgeshield_bpd",
         "models/edgeshield_bpd",
-        "distilbert-base-uncased"
     ]
-    # Also check if edgeshield_trained_models.zip exists in Kaggle input
-    zip_model_path = "/kaggle/input/edgeshield-slm-training/edgeshield_trained_models.zip"
-    if os.path.exists(zip_model_path) and not os.path.exists("/kaggle/working/extracted_models/models/edgeshield_bpd"):
-        print(f"[*] Extracting trained EdgeShield checkpoints from {zip_model_path}...", flush=True)
-        with zipfile.ZipFile(zip_model_path, "r") as mz:
-            mz.extractall("/kaggle/working/extracted_models")
+    if os.path.exists("/kaggle/input"):
+        for root, dirs, files in os.walk("/kaggle/input"):
+            if "edgeshield_bpd" in dirs:
+                model_candidates.insert(1, os.path.join(root, "edgeshield_bpd"))
+    if os.path.exists("/kaggle/working/extracted_models"):
+        for root, dirs, files in os.walk("/kaggle/working/extracted_models"):
+            if "edgeshield_bpd" in dirs:
+                model_candidates.insert(1, os.path.join(root, "edgeshield_bpd"))
 
     backbone_path = "distilbert-base-uncased"
     has_weights = False
@@ -249,8 +260,6 @@ def main():
                 backbone_path = p
                 has_weights = True
                 break
-            elif p == "distilbert-base-uncased":
-                backbone_path = p
 
     tokenizer_path = "/kaggle/working/edgeshield/models/edgeshield_bpd" if os.path.exists("/kaggle/working/edgeshield/models/edgeshield_bpd") else backbone_path
     print(f"[*] Loading EdgeShield Behavioral Backbone: {backbone_path} (weights_loaded={has_weights})", flush=True)
@@ -266,13 +275,14 @@ def main():
             df_p3b = pd.read_csv(io.BytesIO(sz_dr.read("Drift-dataset-phase-3b.csv")), low_memory=False)
             df_p3c = pd.read_csv(io.BytesIO(sz_dr.read("Drift-dataset-phase-3c.csv")), low_memory=False)
 
+    # Balanced early slice from Imbalanced-10 across ALL 7 families (each has 3,000+ rows)
     train_texts, train_labels, _ = build_stratified_windows(
-        df_imb5, max_benign=args.max_train_ben, max_mal_per_family=args.max_train_mal_fam, from_tail=False
+        df_imb10, max_benign=args.max_train_ben, max_mal_per_family=args.max_train_mal_fam, from_tail=False
     )
 
     eval_splits = {}
     for split_name, df_sp in [
-        ("Imbalanced_10_Unseen", df_imb10),
+        ("Imbalanced_5_Unseen", df_imb5),
         ("Drift_Phase_2", df_p2),
         ("Drift_Phase_3a", df_p3a),
         ("Drift_Phase_3b", df_p3b),
@@ -285,9 +295,9 @@ def main():
 
     zs_recall = 0.0
     if has_weights:
-        print("\n[*] Running Protocol A: Zero-Shot Evaluation of pre-trained EdgeShield BPD on RADAR Imbalanced-10...", flush=True)
+        print("\n[*] Running Protocol A: Zero-Shot Evaluation of pre-trained EdgeShield BPD on RADAR Imbalanced-5...", flush=True)
         zs_model = AutoModelForSequenceClassification.from_pretrained(backbone_path).to(device)
-        zs_texts, zs_labels, _ = eval_splits["Imbalanced_10_Unseen"]
+        zs_texts, zs_labels, _ = eval_splits["Imbalanced_5_Unseen"]
         zs_model.eval()
         zs_preds = []
         mal_indices = [i for i, l in enumerate(zs_labels) if l == 1][:400]
@@ -331,6 +341,8 @@ def main():
     results_summary = {
         "dataset": "RADAR (Zenodo 14564541 - Windows 11 Modern RaaS)",
         "hardware": torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU",
+        "backbone_loaded": backbone_path,
+        "weights_loaded": has_weights,
         "zero_shot_pre_adaptation_recall_pct": round(zs_recall, 2),
         "adaptation_time_seconds": round(train_duration_s, 2),
         "splits": {},
