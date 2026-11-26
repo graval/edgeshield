@@ -13,14 +13,14 @@ Designed specifically for resource-constrained edge computing environments, Edge
 ## Key Highlights
 
 - **Dual-Stream Detection**:
-  - **Stream A (LSA)**: Log Sequence Analyzer based on `microsoft/deberta-v3-small` (44M parameters) fine-tuned for host audit telemetry and lateral movement detection.
+  - **Stream A (LSA)**: Log Sequence Analyzer based on `microsoft/deberta-v3-small` (44M backbone parameters, 142M total deployed including 128k embeddings) fine-tuned for host audit telemetry and lateral movement detection.
   - **Stream B (BPD)**: Behavioral Pattern Detector featuring an attention-based threat scoring head for pre-encryption file system access anomalies.
 - **Tiered Selective Gating**:
   - Two-stage filter combining known-process fast-path allowlisting with sliding-window Shannon file entropy triage.
   - Executes in **48.55 &mu;s**, filtering out **94.75%** of benign telemetry while escalating 100% of suspicious attack sequences to the SLM.
 - **Edge Deployment & Quantization**:
   - Post-training dynamic INT8 quantization deployed via ONNX Runtime with AVX-VNNI acceleration.
-  - Inference latency of **15.30 ms** on standard laptop CPUs with a working memory footprint of under **50 MB RAM**.
+  - Inference latency of **15.30 ms** on standard physical laptop CPUs (Intel Core Ultra 7 255H) with an active process working set of **318.5 MB RAM** (versus 2,400+ MB for 3.8B LLMs, an ~8x memory reduction).
 
 ---
 
@@ -30,7 +30,7 @@ To maintain strict academic rigor and avoid confusion between previously accepte
 
 | Version | Milestone / Paper | Status | Key Artifacts & Capabilities |
 | :--- | :--- | :--- | :--- |
-| **`v1.0.0-temscon`** | **IEEE TEMSCON-ASPAC 2026** (Oct 2026) | **Accepted & Published** (Paper ID #171) | • Dual-Stream SLM Architecture (Stream A LSA + Stream B BPD)<br>• Baseline lateral movement & ransomware early warning formulation<br>• Initial LMD-2023 evaluation on commodity CPU |
+| **`v1.0.0-temscon`** | **IEEE TEMSCON-ASPAC 2026** (Oct 2026) | **Accepted & In Press** (Paper ID #171) | • Dual-Stream SLM Architecture (Stream A LSA + Stream B BPD)<br>• Baseline lateral movement & ransomware early warning formulation<br>• Initial LMD-2023 evaluation on commodity CPU |
 | **`v2.0.0-current`** (`main`) | **Proposed Journal Expansion** (Target: TBD) | **Manuscript in Preparation / Target: TBD** | • **Tiered Selective Gating** ($48.55\ \mu\text{s}$ microsecond triage, 94.75% benign filtering)<br>• **Cross-Hardware Benchmarks** (Intel Core Ultra 7 255H, Intel Arc 140T, Kaggle Xeon, Dual Tesla T4)<br>• **Out-of-Distribution Generalization** (DARPA OpTC, RADAR Windows 11 Concept Drift, Mordor)<br>• **Dynamic INT8 Quantization** with AVX-VNNI acceleration |
 
 > **Reproducibility Note:** To inspect or replicate *only* the baseline conference artifact, checkout the tag:  
@@ -42,14 +42,16 @@ To maintain strict academic rigor and avoid confusion between previously accepte
 
 Empirical evaluation on held-out test splits across Darpa OpTC, RansomHub, and LockBit 3.0 telemetry streams:
 
-| Architecture / Model | Parameters | Quantization | Accuracy (%) | Macro F1 (%) | Precision (%) | Recall (%) | FPR (%) | CPU Latency (ms) | Memory (MB) |
+| Architecture / Model | Parameters | Quantization | Accuracy (%) | Macro F1 (%) | Precision (%) | Recall (%) | FPR (%) | CPU Latency (ms) | Memory RSS (MB) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **EdgeShield (Ours)** | **44M** | **INT8** | **99.60%** | **99.55%** | **99.70%** | **99.40%** | **0.40%** | **15.30** | **< 50** |
-| EdgeShield (FP32) | 44M | FP32 | 99.60% | 99.55% | 99.70% | 99.40% | 0.40% | 27.60 | 178 |
+| **EdgeShield (Ours)** | **44M (142M\*)** | **INT8** | **99.60%** | **99.55%** | **99.70%** | **99.40%** | **0.40%** | **15.30** | **318.5** |
+| EdgeShield (FP32) | 44M (142M\*) | FP32 | 99.60% | 99.55% | 99.70% | 99.40% | 0.40% | 27.60 | 540 |
 | Llama-3.2 (1B) | 1.23B | INT4 | 97.80% | 97.45% | 98.10% | 96.80% | 1.80% | 148.50 | 780 |
 | Gemma-2 (2.6B) | 2.61B | INT4 | 98.15% | 97.89% | 98.30% | 97.50% | 1.45% | 312.20 | 1,620 |
 | Phi-3 Mini (3.8B) | 3.82B | INT4 | 98.42% | 98.15% | 98.60% | 97.70% | 1.20% | 465.10 | 2,340 |
 | Mistral NeMo (12B) | 12.2B | INT4 | 98.90% | 98.72% | 99.10% | 98.35% | 0.85% | 1,420.00 | 7,450 |
+
+> **Note on Model Architecture & Memory Footprint:** DeBERTa-v3 Small comprises a 44M-parameter encoder backbone plus 98M embedding parameters for its 128k multilingual vocabulary (142M total deployed parameters). Process memory reflects peak active working set (RSS) profiled under continuous ONNX Runtime inference on a physical Intel Core Ultra 7 255H workstation.
 
 ---
 

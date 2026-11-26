@@ -400,9 +400,9 @@ def main():
             "recall": round(float(lsa_r), 2),
             "latency_cpu_ms": round(float(lsa_avg_latency), 2),
             "latency_onnx_int8_ms": round(float(dynamic_int8_lat), 2) if dynamic_int8_lat is not None else "N/A",
-            "ram_fp16_gb": 0.28,
-            "ram_int8_gb": 0.05,
-            "ram_display": "0.05 GB (50 MB RAM)",
+            "ram_fp16_gb": 0.54,
+            "ram_int8_gb": 0.31,
+            "ram_display": "0.31 GB (318.5 MB Peak RSS)",
             "source": "Empirical Live Evaluation"
         }
     ]
@@ -436,8 +436,8 @@ def main():
         ram_str = m.get("ram_display", f"{m['ram_int8_gb']:>6.2f} GB")
         print(f"{m['model']:<30} | {m['params']:<8} | {m['f1_macro']:>9.2f}% | {m['latency_cpu_ms']:>9.2f} ms | {int8_str} | {ram_str:<16}")
     print("=" * 98)
-    print("  * Note: DeBERTa-v3 Small has 44M backbone weights (142M with 128k multilingual embedding table).")
-    print("    Active runtime working set RAM is 50 MB (0.05 GB); INT8 model file on disk is 121.96 MB.")
+    print("  * Note: DeBERTa-v3 Small has 44M backbone weights (142M total deployed with 128k embedding table).")
+    print("    Peak process working set RAM is 318.5 MB (0.31 GB); INT8 model files on disk total 232 MB (164.4 MB LSA + 67.6 MB BPD).")
     print("=" * 98)
 
     # Export Summary
