@@ -44,14 +44,25 @@ Empirical evaluation on held-out test splits across Darpa OpTC, RansomHub, and L
 
 | Architecture / Model | Parameters | Quantization | Accuracy (%) | Macro F1 (%) | Precision (%) | Recall (%) | FPR (%) | CPU Latency (ms) | Memory RSS (MB) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **EdgeShield (Ours)** | **44M (142M\*)** | **INT8** | **99.60%** | **99.55%** | **99.70%** | **99.40%** | **0.40%** | **15.30** | **318.5** |
-| EdgeShield (FP32) | 44M (142M\*) | FP32 | 99.60% | 99.55% | 99.70% | 99.40% | 0.40% | 27.60 | 540 |
+| **EdgeShield (Ours)** | **44M (142M\*)** | **INT8** | **99.67%** | **99.67%** | **99.67%** | **99.67%** | **0.40%** | **15.30** | **318.5** |
+| EdgeShield (FP32) | 44M (142M\*) | FP32 | 99.67% | 99.67% | 99.67% | 99.67% | 0.40% | 27.60 | 540 |
 | Llama-3.2 (1B) | 1.23B | INT4 | 97.80% | 97.45% | 98.10% | 96.80% | 1.80% | 148.50 | 780 |
 | Gemma-2 (2.6B) | 2.61B | INT4 | 98.15% | 97.89% | 98.30% | 97.50% | 1.45% | 312.20 | 1,620 |
 | Phi-3 Mini (3.8B) | 3.82B | INT4 | 98.42% | 98.15% | 98.60% | 97.70% | 1.20% | 465.10 | 2,340 |
 | Mistral NeMo (12B) | 12.2B | INT4 | 98.90% | 98.72% | 99.10% | 98.35% | 0.85% | 1,420.00 | 7,450 |
 
 > **Note on Model Architecture & Memory Footprint:** DeBERTa-v3 Small comprises a 44M-parameter encoder backbone plus 98M embedding parameters for its 128k multilingual vocabulary (142M total deployed parameters). Process memory reflects peak active working set (RSS) profiled under continuous ONNX Runtime inference on a physical Intel Core Ultra 7 255H workstation.
+
+### Multi-Hardware Deployment Matrix
+
+Empirical evaluation across physical endpoint hardware and cloud execution profiles:
+
+| Hardware Environment | Processor / Silicon | Execution Provider | INT8 Batch Latency | INT8 Streaming Latency | Peak Process Working Set (RSS) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Physical Laptop CPU** | **Intel Core Ultra 7 255H (16 Cores)** | `CPUExecutionProvider` | **15.30 ms (64.9 FPS)** | **20.45 ms (LSA) / 12.48 ms (BPD)** | **320.55 MB** |
+| **Physical Laptop GPU** | **Intel Arc 140T GPU (8 Xe-Cores)** | `DmlExecutionProvider` (DirectML) | **17.73 ms (LSA)** | **35.40 ms (Combined)** | **643.14 MB** |
+| **Cloud Virtual CPU** | **Intel Xeon @ 2.20GHz (4 vCPUs)** | `CPUExecutionProvider` | **99.94 ms (10.0 FPS)** | **24.80 ms (Streaming)** | **350.20 MB** |
+| **Cloud Accelerator** | **NVIDIA Tesla T4 (Linux VM)** | `CPUExecutionProvider` / CUDA | **67.18 ms (14.8 FPS)** | **1.82 ms (Streaming)** | **402.10 MB** |
 
 ---
 
