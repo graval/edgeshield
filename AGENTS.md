@@ -1,7 +1,29 @@
 # AGENTS.md: Universal AI Assistant Instructions & Project Governance
 
 > **To any AI coding assistant (Antigravity, Claude, Cursor, Copilot, Gemini):**  
-> Read this document to understand the repository boundaries, privacy governance, and git branching policies.
+> Read this document to understand the repository boundaries, privacy governance, zero-hallucination policies, and git branching rules.
+
+---
+
+## 🚫 MANDATORY DIRECTIVE: ZERO HALLUCINATIONS & ZERO UNVERIFIED ASSUMPTIONS
+
+Every AI assistant working on this codebase MUST strictly adhere to the following rules with ZERO exceptions:
+
+1. **NO Fabricated or Hallucinated Metadata**:
+   - **NEVER** invent, extrapolate, or hallucinate author names, affiliations, co-authors, citations, bibtex entries, benchmark numbers, dataset statistics, or license terms.
+   - The verified canonical authors for EdgeShield doctoral research are:
+     - **Candidate / Lead Author:** Gauravkumar Raval (GLS University)
+     - **Doctoral Supervisor:** Dr. Tejaskumar Bhatt (GLS University)
+   - Do NOT insert any placeholder or synthetic names (e.g., "Dave, Mayank", "John Doe", or imaginary co-authors). Any publication or citation must accurately reflect Gauravkumar Raval and Dr. Tejaskumar Bhatt.
+
+2. **NO Unverified Assumptions**:
+   - Never assume missing values, parameters, hardware specs, metrics, or research facts.
+   - If any fact, author, institution, paper acceptance, or configuration detail is ambiguous or not grounded in a physical file or authoritative tool output, **STOP IMMEDIATELY and ask the user for confirmation**.
+   - Do NOT fill in gaps with plausible-sounding guesses.
+
+3. **Strict Empirical Grounding**:
+   - Every metric, latency figure, parameter count, memory footprint, recall, precision, and F1 score cited in papers, reports, READMEs, or dashboards must come from actual, verified execution logs (`runs/`, Kaggle kernel logs, or local benchmark JSON outputs).
+   - Never generate hypothetical benchmark tables or synthetic performance comparisons.
 
 ---
 

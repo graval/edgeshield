@@ -101,7 +101,7 @@ If you find this research or code useful, please cite our conference paper:
 
 ```bibtex
 @inproceedings{raval2026edgeshield,
-  author    = {Raval, Gauravkumar and Dave, Mayank},
+  author    = {Raval, Gauravkumar and Bhatt, Tejaskumar},
   title     = {{EdgeShield: Lightweight Dual-Stream Small Language Model Architecture for Pre-Encryption Ransomware Defense on Edge Devices}},
   booktitle = {Proceedings of the IEEE Technology and Engineering Management Conference - Asia Pacific (TEMSCON-ASPAC)},
   year      = {2026},
