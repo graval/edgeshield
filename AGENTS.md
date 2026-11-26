@@ -24,7 +24,10 @@ This public repository (`graval/edgeshield`) represents **Tier 3** of the EdgeSh
 
 ### 2. Public Release Repository Hygiene (`graval/edgeshield`)
 * **Dedicated Standalone Public Repository**: Only the dedicated public repository (`graval/edgeshield`) is public.
-* **Tier 2 → Tier 3 Promotion Gate**: Never push unvalidated, draft, or in-progress experiment scripts directly to `graval/edgeshield`. New dataset runners and Kaggle validation pipelines MUST be executed and verified in **Tier 2 (`graval/edgeshield-experiments`)** first, and promoted here only after metrics stabilize for publication.
+* **Tier 2 → Tier 3 Promotion Gate**:
+  - Never push unvalidated, draft, or in-progress experiment scripts directly to `graval/edgeshield`.
+  - New dataset runners and Kaggle validation pipelines MUST be executed and verified in **Tier 2 (`graval/edgeshield-experiments`)** first using the canonical suite (`EdgeShield_Kaggle_Benchmark_Suite.ipynb`), and promoted here only after metrics stabilize for publication.
+  - Do NOT commit ad-hoc or temporary notebooks (such as `EdgeShield_RADAR_Validation.ipynb`) to Tier 3. Tier 3 contains only clean, finalized standalone Python replication scripts (`benchmark_edgeshield.py`, `benchmark_onnx.py`).
 * **STRICT PROHIBITION ON INTERNAL MILESTONES**:
   - **NEVER** commit, push, or copy internal university/doctoral milestone materials (`rdc2/`, `rdc3/`, `rdc4/`, defense slide decks, viva notes, reviewer response letters, candidate progress tracking, internal trial notebooks) into the public repository.
   - The public repository must contain ONLY finalized, peer-reviewed, reproducible artifacts:
