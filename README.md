@@ -24,6 +24,20 @@ Designed specifically for resource-constrained edge computing environments, Edge
 
 ---
 
+## 🗺️ Version & Research Lineage Roadmap
+
+To maintain strict academic rigor and avoid confusion between previously accepted conference findings and ongoing journal research, this repository follows a versioned lineage:
+
+| Version | Milestone / Paper | Status | Key Artifacts & Capabilities |
+| :--- | :--- | :--- | :--- |
+| **`v1.0.0-temscon`** | **IEEE TEMSCON-ASPAC 2026** (Oct 2026) | **Accepted & Published** (Paper ID #171) | • Dual-Stream SLM Architecture (Stream A LSA + Stream B BPD)<br>• Baseline lateral movement & ransomware early warning formulation<br>• Initial LMD-2023 evaluation on commodity CPU |
+| **`v2.0.0-current`** (`main`) | **Proposed Journal Expansion** (Springer IJIS) | **Under Review / Manuscript Submitted** | • **Tiered Selective Gating** ($48.55\ \mu\text{s}$ microsecond triage, 94.75% benign filtering)<br>• **Cross-Hardware Benchmarks** (Intel Core Ultra 7 255H, Intel Arc 140T, Kaggle Xeon, Dual Tesla T4)<br>• **Out-of-Distribution Generalization** (DARPA OpTC, RADAR Windows 11 Concept Drift, Mordor)<br>• **Dynamic INT8 Quantization** with AVX-VNNI acceleration |
+
+> **Reproducibility Note:** To inspect or replicate *only* the baseline conference artifact, checkout the tag:  
+> `git checkout v1.0.0-temscon`
+
+---
+
 ## Empirical Benchmark Performance
 
 Empirical evaluation on held-out test splits across Darpa OpTC, RansomHub, and LockBit 3.0 telemetry streams:
@@ -95,16 +109,42 @@ python scripts/run_full_pipeline.py
 
 ---
 
-## Citation
+## 📦 Model Checkpoints & Pre-Trained Weights
 
-If you find this research or code useful, please cite our conference paper:
+Model checkpoints and quantized ONNX artifacts are hosted on **Hugging Face Hub** and **Kaggle Models** with tagged release revisions to prevent confusion between versions:
+
+* **Hugging Face Hub Model Repository:** [`graval/edgeshield`](https://huggingface.co/graval/edgeshield)
+  * **Tag `v1.0-temscon`:** Baseline PyTorch checkpoints for Stream A (LSA) and Stream B (BPD) corresponding to the IEEE TEMSCON-ASPAC 2026 conference publication.
+  * **Tag `v2.0-int8-quantized` (`main`):** Production INT8 ONNX models with AVX-VNNI acceleration and Tiered Selective Gating configurations.
+* **Kaggle Models Repository:** [`gauravr1/edgeshield-models`](https://www.kaggle.com/models/gauravr1/edgeshield-models)
+  * Versioned bundle used directly in Kaggle Cloud benchmark validation kernels.
+
+---
+
+## 📚 Citation
+
+If you find this research or code useful, please cite the appropriate publication corresponding to the version or components used:
+
+### 1. Conference Baseline (Preliminary Dual-Stream SLM Architecture)
 
 ```bibtex
-@inproceedings{raval2026edgeshield,
+@inproceedings{raval2026edgeshield_temscon,
   author    = {Raval, Gauravkumar and Bhatt, Tejaskumar},
   title     = {{EdgeShield: Lightweight Dual-Stream Small Language Model Architecture for Pre-Encryption Ransomware Defense on Edge Devices}},
-  booktitle = {Proceedings of the IEEE Technology and Engineering Management Conference - Asia Pacific (TEMSCON-ASPAC)},
+  booktitle = {Proceedings of the 5th IEEE Technology and Engineering Management Conference - Asia Pacific (TEMSCON-ASPAC)},
   year      = {2026},
   note      = {Accepted and In Press}
+}
+```
+
+### 2. Proposed Extended Journal Article (Full Framework, Tiered Gating & Multi-Hardware Benchmarks)
+
+```bibtex
+@article{raval2026edgeshield_journal,
+  author  = {Raval, Gauravkumar and Bhatt, Tejaskumar},
+  title   = {{EdgeShield: A High-Throughput Edge-Native Small Language Model Architecture for Pre-Encryption Ransomware Early Warning and Lateral Movement Interception}},
+  journal = {Springer International Journal of Information Security (IJIS)},
+  year    = {2026},
+  note    = {Under Review / Manuscript Submitted}
 }
 ```
