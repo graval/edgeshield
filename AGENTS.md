@@ -11,9 +11,9 @@ Every AI assistant working on this codebase MUST strictly adhere to the followin
 
 1. **NO Fabricated or Hallucinated Metadata**:
    - **NEVER** invent, extrapolate, or hallucinate author names, affiliations, co-authors, citations, bibtex entries, benchmark numbers, dataset statistics, or license terms.
-   - The verified canonical authors for EdgeShield doctoral research are:
-     - **Candidate / Lead Author:** Gauravkumar Raval (GLS University)
-     - **Doctoral Supervisor:** Dr. Tejaskumar Bhatt (GLS University)
+   - The verified canonical authors for EdgeShield research are:
+     - **Lead Author / Researcher:** Gauravkumar Raval (GLS University)
+     - **Co-Author / Research Mentor:** Dr. Tejaskumar Bhatt (GLS University)
    - Do NOT insert any placeholder or synthetic names (e.g., "Dave, Mayank", "John Doe", or imaginary co-authors). Any publication or citation must accurately reflect Gauravkumar Raval and Dr. Tejaskumar Bhatt.
 
 2. **NO Unverified Assumptions**:
@@ -31,7 +31,7 @@ Every AI assistant working on this codebase MUST strictly adhere to the followin
 
 This public repository (`graval/edgeshield`) represents **Tier 3** of the EdgeShield project:
 
-* **Tier 1 (Private: `graval/slm-gpu-trainer`):** Academic Research & Defense Archive (Doctoral milestones RDC2-RDC4, grant proposals, manuscripts, rebuttal letters).
+* **Tier 1 (Private: `graval/slm-gpu-trainer`):** Academic Research & Defense Archive (Internal milestones RDC2-RDC4, grant proposals, manuscripts, rebuttal letters).
 * **Tier 2 (Private: `graval/edgeshield-experiments`):** Execution & Experiment Engine (Training pipelines, checkpoint registry, Kaggle cloud runners, multi-hardware benchmark logs).
 * **Tier 3 (Public: `graval/edgeshield` - THIS REPO):** Public Artifact Release containing finalized, peer-reviewed EdgeShield library code, exported ONNX INT8 models, and clean replication scripts for peer review.
 
@@ -51,7 +51,7 @@ This public repository (`graval/edgeshield`) represents **Tier 3** of the EdgeSh
   - New dataset runners and Kaggle validation pipelines MUST be executed and verified in **Tier 2 (`graval/edgeshield-experiments`)** first using the canonical suite (`EdgeShield_Kaggle_Benchmark_Suite.ipynb`), and promoted here only after metrics stabilize for publication.
   - Do NOT commit ad-hoc or temporary notebooks (such as `EdgeShield_RADAR_Validation.ipynb`) to Tier 3. Tier 3 contains only clean, finalized standalone Python replication scripts (`benchmark_edgeshield.py`, `benchmark_onnx.py`).
 * **STRICT PROHIBITION ON INTERNAL MILESTONES**:
-  - **NEVER** commit, push, or copy internal university/doctoral milestone materials (`rdc2/`, `rdc3/`, `rdc4/`, defense slide decks, viva notes, reviewer response letters, candidate progress tracking, internal trial notebooks) into the public repository.
+  - **NEVER** commit, push, or copy internal university or milestone materials (`rdc2/`, `rdc3/`, `rdc4/`, defense slide decks, viva notes, reviewer response letters, candidate progress tracking, internal trial notebooks) into the public repository.
   - The public repository must contain ONLY finalized, peer-reviewed, reproducible artifacts:
     1. Core EdgeShield library and runtime architecture (`edgeshield/`)
     2. Model weights and ONNX exports (`models/` - INT8 & FP32)
