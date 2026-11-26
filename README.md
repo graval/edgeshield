@@ -31,7 +31,7 @@ To maintain strict academic rigor and avoid confusion between previously accepte
 | Version | Milestone / Paper | Status | Key Artifacts & Capabilities |
 | :--- | :--- | :--- | :--- |
 | **`v1.0.0-temscon`** | **IEEE TEMSCON-ASPAC 2026** (Oct 2026) | **Accepted & Published** (Paper ID #171) | • Dual-Stream SLM Architecture (Stream A LSA + Stream B BPD)<br>• Baseline lateral movement & ransomware early warning formulation<br>• Initial LMD-2023 evaluation on commodity CPU |
-| **`v2.0.0-current`** (`main`) | **Proposed Journal Expansion** (Springer IJIS) | **Under Review / Manuscript Submitted** | • **Tiered Selective Gating** ($48.55\ \mu\text{s}$ microsecond triage, 94.75% benign filtering)<br>• **Cross-Hardware Benchmarks** (Intel Core Ultra 7 255H, Intel Arc 140T, Kaggle Xeon, Dual Tesla T4)<br>• **Out-of-Distribution Generalization** (DARPA OpTC, RADAR Windows 11 Concept Drift, Mordor)<br>• **Dynamic INT8 Quantization** with AVX-VNNI acceleration |
+| **`v2.0.0-current`** (`main`) | **Proposed Journal Expansion** (Target: TBD) | **Manuscript in Preparation / Target: TBD** | • **Tiered Selective Gating** ($48.55\ \mu\text{s}$ microsecond triage, 94.75% benign filtering)<br>• **Cross-Hardware Benchmarks** (Intel Core Ultra 7 255H, Intel Arc 140T, Kaggle Xeon, Dual Tesla T4)<br>• **Out-of-Distribution Generalization** (DARPA OpTC, RADAR Windows 11 Concept Drift, Mordor)<br>• **Dynamic INT8 Quantization** with AVX-VNNI acceleration |
 
 > **Reproducibility Note:** To inspect or replicate *only* the baseline conference artifact, checkout the tag:  
 > `git checkout v1.0.0-temscon`
@@ -143,8 +143,8 @@ If you find this research or code useful, please cite the appropriate publicatio
 @article{raval2026edgeshield_journal,
   author  = {Raval, Gauravkumar and Bhatt, Tejaskumar},
   title   = {{EdgeShield: A High-Throughput Edge-Native Small Language Model Architecture for Pre-Encryption Ransomware Early Warning and Lateral Movement Interception}},
-  journal = {Springer International Journal of Information Security (IJIS)},
+  journal = {Target Journal: TBD (Manuscript in Preparation)},
   year    = {2026},
-  note    = {Under Review / Manuscript Submitted}
+  note    = {Under Submission / Pre-submission Draft}
 }
 ```
